@@ -18,8 +18,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## To run the app
 
-# Build static assets (Tailwind, React)
+-Build static assets (Tailwind, React)
 npm run build
 
-# Start the Express server (PDF generation + Firebase)
+-Start the Express server (PDF generation + Firebase)
 node server.js

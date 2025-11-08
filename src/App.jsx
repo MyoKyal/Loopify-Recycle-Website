@@ -1,16 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Navbar from './components/Navbar'
+// src/App.jsx
+import React, { useState, useEffect } from "react";
+import Logo from "./assets/Logo.jpg";
+import LogoAndName from "./assets/LogoAndName.jpg";
 
-function App() {
+const slides = [
+  {
+    src: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.1.0&auto=format&fit=crop&q=80",
+    title: "Return Your Old Devices",
+    text: "Earn rewards and help the planet",
+  },
+  {
+    src: "https://images.pexels.com/photos/802221/pexels-photo-802221.jpeg",
+    title: "Give Clothes a Second Life",
+    text: "Donate or recycle with Loopify",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?ixlib=rb-4.1.0&auto=format&fit=crop&q=80",
+    title: "Zero-Waste Packaging",
+    text: "Return and get rewarded",
+  },
+];
+
+export default function App() {
+  const [current, setCurrent] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const navItems = ["Home", "About", "Contact", "Leaderboard"];
+
   return (
     <>
-      <Navbar></Navbar>
-    </>
-  )
-}
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 right-0 bg-white shadow-2xl z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo + Name */}
+            <div className="flex items-center">
+              <img
+                src={Logo}
+                alt="Loopify"
+                className="h-12 w-12 rounded-full border-4 border-green-600 shadow-lg"
+              />
+              <img
+                src={LogoAndName}
+                alt="Loopify"
+                className="h-10 ml-3 hidden sm:block"
+              />
+            </div>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-10">
@@ -18,7 +60,7 @@ function App() {
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="text-lg font-semibold text-gray-700 hover:text-green-600 transition duration-200"
+                  className="text-lg font-semibold text-gray-700 hover:text-green-600 transition"
                 >
                   {item}
                 </a>
@@ -108,7 +150,7 @@ function App() {
                 i === current ? "bg-white w-12" : "bg-white/60"
               }`}
             />
-            ))}
+          ))}
         </div>
       </div>
 

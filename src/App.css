@@ -1,0 +1,38 @@
+/* ──────────────────────────────────────
+   Tailwind base
+   ────────────────────────────────────── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ──────────────────────────────────────
+   Global overrides
+   ────────────────────────────────────── */
+html, body, #root { height: 100%; margin:0; padding:0; font-family: 'Inter', sans-serif; }
+
+/* ── Navbar ── */
+.navbar-brand span { font-size: 2rem; color:#1C5C3F; }
+.navbar-nav .nav-link { font-size:1.5rem; margin-right:1.5rem; text-align:center; }
+.btn-outline-primary { border-color:#1C5C3F; color:#1C5C3F; }
+.btn-outline-primary:hover { background:#1C5C3F; color:#fff; }
+
+/* ── Carousel ── */
+#carouselExampleIndicators {
+  height: calc(100vh - 66px);
+  background:#f0f0f0b2;
+}
+@media (max-width:900px){
+  #carouselExampleIndicators { height:50vh; }
+  .carousel-caption h5 { font-size:1.25rem !important; }
+  .carousel-caption p { font-size:0.8rem !important;
+                         background:rgba(0,0,0,.5); padding:5px; border-radius:4px; }
+}
+#carouselExampleIndicators .carousel-inner,
+#carouselExampleIndicators .carousel-item,
+#carouselExampleIndicators .carousel-item img {
+  height:100%; width:100%; object-fit:cover;
+}
+
+/* Tailwind helpers */
+.bg-primary { @apply bg-[#1C5C3F]; }
+.text-accent { @apply text-[#AAFF8B]; }

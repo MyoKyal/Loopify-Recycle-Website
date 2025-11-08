@@ -126,13 +126,6 @@ function App() {
               </button>
             </div>
           </div>
-<<<<<<< HEAD
-        )}
-      </div>
-    </nav>
-  );
-}
-=======
         </div>
       </nav>
 
@@ -247,4 +240,3 @@ function App() {
 }
 
 export default App;
->>>>>>> origin/yoon_firebase

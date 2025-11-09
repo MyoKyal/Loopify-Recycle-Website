@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Return – Loopify Recycle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <div class="container mx-auto px-6 py-12 max-w-2xl">
+    <h1 class="text-3xl font-bold mb-6">Track Your Return</h1>
+    <div id="tracking" class="bg-white p-6 rounded-lg shadow">Loading...</div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const trackingNumber = urlParams.get('number') || prompt('Enter Tracking Number:');
+    if (trackingNumber) {
+      fetch(`/api/track/${trackingNumber}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('tracking').innerHTML = `
+            <p class="font-bold">Tracking: ${data.trackingNumber}</p>
+            <p>Status: ${data.status}</p>
+            <p>Est. Delivery: ${data.estimatedDelivery}</p>
+            <ul class="mt-4 space-y-2">
+              ${data.events.map(e => `<li>${e.date}: ${e.status}</li>`).join('')}
+            </ul>
+            <p class="text-sm text-gray-600 mt-4">Current Location: ${data.location}</p>
+          `;
+        })
+        .catch(() => {
+          document.getElementById('tracking').innerHTML = '<p class="text-red-500">Tracking not found. Check number and try again.</p>';
+        });
+    }
+  </script>
+</body>
+</html>

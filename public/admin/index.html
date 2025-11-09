@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin – Loopify</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "loopify-recycle.firebaseapp.com",
+      projectId: "loopify-recycle",
+      storageBucket: "loopify-recycle.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function load() {
+      const q = query(collection(db, 'returns'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      const tbody = document.getElementById('tbody');
+      tbody.innerHTML = '';
+      snap.forEach(doc => {
+        const d = doc.data();
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-2">${doc.id.slice(0,8)}</td>
+          <td class="p-2">${d.selected?.item||''}</td>
+          <td class="p-2">${d.shipping?.name||''}</td>
+          <td class="p-2">${d.rewardAmount||0} MMK</td>
+          <td class="p-2"><span class="px-2 py-1 rounded text-xs bg-yellow-200">pending</span></td>
+          <td class="p-2"><img src="${d.photoUrl||''}" class="w-16 h-16 object-cover rounded" onerror="this.style.display='none'"/></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    load();
+  </script>
+</head>
+<body class="bg-gray-50">
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">All Returns</h1>
+    <table class="w-full bg-white shadow rounded-lg">
+      <thead class="bg-primary text-white">
+        <tr><th class="p-2">ID</th><th class="p-2">Item</th><th class="p-2">Customer</th><th class="p-2">Reward</th><th class="p-2">Status</th><th class="p-2">Photo</th></tr>
+      </thead>
+      <tbody id="tbody"><tr><td colspan="6" class="p-4 text-center">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</body>
+</html>

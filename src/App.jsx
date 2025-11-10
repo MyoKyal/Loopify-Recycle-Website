@@ -1,5 +1,7 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Logo from "./assets/Logo.jpg";
 
 const slides = [
@@ -22,8 +24,7 @@ const slides = [
 
 export default function App() {
   const [current, setCurrent] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -31,104 +32,11 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  const navItems = ["Home", "About", "Contact", "Leaderboard"];
+
 
   return (
     <>
-      {/* NAVBAR */}
-      <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-loopifyMain via-loopifySecondary to-loopifySecondary shadow-md z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo + Title */}
-            <div className="flex items-center space-x-3">
-              <div className="h-12 w-12 rounded-full border-2 border-white bg-white flex items-center justify-center overflow-hidden shadow-md">
-                <img
-                  src={Logo}
-                  alt="Loopify Logo"
-                  className="h-10 w-10 object-cover rounded-full"
-                />
-              </div>
-              <span className="text-2xl font-extrabold text-white font-title tracking-wide flex items-center">
-                L
-                {/* <svg
-                  className="w-6 h-8 mx-0.5 inline-block align-middle"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12c2-3 6-3 8 0s6 3 8 0" />
-                  <path d="M5 12c2 3 6 3 8 0s6-3 8 0" />
-                </svg> */}
-                <svg width="28" height="20" viewBox="0 0 100 55" fill="none" stroke="white" stroke-width="8" class= "align-middle relative top-[2px]">
-                  <path
-                    d="M10,25 
-                      C10,5 40,5 50,25 
-                      C60,45 90,45 90,25 
-                      C90,5 60,5 50,25 
-                      C40,45 10,45 10,25Z"
-                  />
-                </svg>
-                pify
-              </span>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-lg font-body text-white hover:text-loopifyAccent transition"
-                >
-                  {item}
-                </a>
-              ))}
-              <button className="bg-white text-loopifyMain font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyAccent transition transform hover:scale-105 shadow-md font-body">
-                Login
-              </button>
-            </div>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-white hover:text-loopifyAccent transition"
-            >
-              <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden bg-loopifyLight border-t border-loopifySecondary">
-              <div className="px-4 pt-4 pb-6 space-y-3">
-                {navItems.map((item) => (
-                  <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="block px-4 py-3 text-lg font-medium text-loopifyMuted hover:text-loopifyMain hover:bg-loopifySoft rounded-lg font-body"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item}
-                  </a>
-                ))}
-                <button className="w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition font-body">
-                  Login
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navbar />
 
       {/* HERO CAROUSEL */}
       <div className="relative h-screen mt-16 overflow-hidden">
@@ -248,28 +156,7 @@ export default function App() {
         </button>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-loopifyDark text-loopifyMuted py-10">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="font-title text-2xl text-white mb-3">Loopify</h3>
-            <p className="text-sm text-white">Closing the loop for a sustainable future.</p>
-          </div>
-          <div>
-            <h4 className="font-title text-lg text-white mb-2">Quick Links</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-loopifyMain">About</a></li>
-              <li><a href="#" className="hover:text-loopifyMain">Projects</a></li>
-              <li><a href="#" className="hover:text-loopifyMain">Contact</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-title text-lg text-white mb-2">Follow Us</h4>
-            <p className="text-sm text-white">Instagram • Twitter • LinkedIn</p>
-          </div>
-        </div>
-        <p className="text-center text-sm mt-10 border-t border-loopifyMuted pt-4">© 2025 Loopify. All Rights Reserved.</p>
-      </footer>
+      <Footer />
     </>
   );
 }

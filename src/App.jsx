@@ -1,8 +1,7 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+
 
 
 const slides = [
@@ -40,16 +39,16 @@ export default function App() {
   const navigate = useNavigate();
 
   const handleReturnClick = () => {
-    navigate("/return");
-  };
-
+  navigate("/return");
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, 100);
+};
 
 
   return (
     <>
     
-      <Navbar />
-      
       {/* HERO CAROUSEL */}
       <div className="relative h-screen mt-16 overflow-hidden">
         {slides.map((slide, i) => (
@@ -139,12 +138,13 @@ export default function App() {
           </div>
 
           <div className="text-center mt-16">
-            <a
-              href="/public/return"
-              className="inline-block px-10 py-4 bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold text-lg rounded-full transition transform hover:scale-105 shadow-lg font-body"
-            >
-              Start Your Return Now
-            </a>
+            
+            <button
+                onClick={handleReturnClick}
+                className="inline-block px-10 py-4 bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold text-lg rounded-full transition transform hover:scale-105 shadow-lg font-body"
+              >
+                Start a Return
+              </button>
           </div>
         </div>
       </section>
@@ -179,8 +179,7 @@ export default function App() {
         </button>
       </section>
 
-      <Footer />
-      
+     
     </>
   
   );

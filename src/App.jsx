@@ -50,7 +50,7 @@ export default function App() {
     <>
     
       {/* HERO CAROUSEL */}
-      <div className="relative h-screen mt-16 overflow-hidden">
+      <div className="relative h-screen overflow-hidden">
         {slides.map((slide, i) => (
           <div
             key={i}

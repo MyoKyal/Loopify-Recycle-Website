@@ -1,8 +1,8 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Logo from "./assets/Logo.jpg";
+import { useNavigate } from "react-router-dom";
+
+
 
 const slides = [
   {
@@ -22,9 +22,13 @@ const slides = [
   },
 ];
 
+
+
+// ... then you pass this function to your Navbar and HomeContent
+
 export default function App() {
   const [current, setCurrent] = useState(0);
-  
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -32,14 +36,21 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleReturnClick = () => {
+  navigate("/return");
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, 100);
+};
 
 
   return (
     <>
-      <Navbar />
-
+    
       {/* HERO CAROUSEL */}
-      <div className="relative h-screen mt-16 overflow-hidden">
+      <div className="relative h-screen overflow-hidden">
         {slides.map((slide, i) => (
           <div
             key={i}
@@ -56,15 +67,26 @@ export default function App() {
               <p className="text-xl md:text-2xl mb-8 drop-shadow-lg font-quote italic">
                 {slide.text}
               </p>
-              <a
-                href="/public/return"
+              
+              <button
+                onClick={handleReturnClick}
                 className="inline-flex items-center bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold text-lg px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg font-body"
               >
                 Start a Return
-                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="ml-2 w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         ))}
@@ -83,7 +105,7 @@ export default function App() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="text-center bg-loopifyLight py-20">
+      <section className="text-center bg-loopifyLight py-20" id="about">
         <h2 className="font-title text-5xl font-bold text-loopifyMain mb-4">Sustainability in Motion</h2>
         <p className="text-lg max-w-2xl mx-auto mb-8 text-loopifyDark">
           At Loopify, we believe every cycle counts. From waste reduction to resource regeneration — we help communities close the loop for a greener tomorrow.
@@ -116,12 +138,13 @@ export default function App() {
           </div>
 
           <div className="text-center mt-16">
-            <a
-              href="/public/return"
-              className="inline-block px-10 py-4 bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold text-lg rounded-full transition transform hover:scale-105 shadow-lg font-body"
-            >
-              Start Your Return Now
-            </a>
+            
+            <button
+                onClick={handleReturnClick}
+                className="inline-block px-10 py-4 bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold text-lg rounded-full transition transform hover:scale-105 shadow-lg font-body"
+              >
+                Start a Return
+              </button>
           </div>
         </div>
       </section>
@@ -156,7 +179,9 @@ export default function App() {
         </button>
       </section>
 
-      <Footer />
+     
     </>
+  
   );
+  
 }

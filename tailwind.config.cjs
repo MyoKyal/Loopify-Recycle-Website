@@ -9,14 +9,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        loopifyMain: "#2C7A4B",       
-        loopifySecondary: "#4CAF7F",  
-        loopifyAccent: "#F4A261",     
-        loopifyLight: "#E6F5EB",      
-        loopifyDark: "#1F2937",       
-        loopifyMuted: "#6B7280",      
-        loopifyHighlight: "#A7D129",  
-        loopifySoft: "#B9E3D3",
+        loopifyMain: "#1a753dff",         
+        loopifySecondary: "#20b456ff",    
+        loopifyTertiary: "#69c78bff",     
+        loopifyAccent: "#FBBF24",       
+        loopifyHighlight: "#FFD166",    
+        loopifyLight: "#ECFDF5",        
+        loopifyDark: "#052E16",         
+        loopifyMuted: "#6B7280",        
+        loopifySoft: "#BBF7D0",         
+        loopifyCream: "#FAF3E0", 
       },
       fontFamily: {
         title: ['Poppins', 'sans-serif'],      

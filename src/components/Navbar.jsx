@@ -115,7 +115,7 @@ const handleClick = (item) => {
             <Link
               to="/login"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="bg-loopifyAccent text-loopifyDark font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyHighlight hover:text-loopifyDark transition transform hover:scale-105 shadow-md font-body duration-300"
+              className="bg-loopifyAccent text-loopifyDark font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyHighlight hover:text-loopifyDark transition transform hover:scale-105 shadow-md font-body duration-300 flex items-center justify-center"
             >
               Login
             </Link>
@@ -155,7 +155,7 @@ const handleClick = (item) => {
                   <button
                     key={index}
                     onClick={() => handleClick(item)}
-                    className="block w-full text-left px-4 py-3 text-lg text-loopifyDark hover:bg-loopifySoft hover:text-loopifyMain rounded-lg transition"
+                    className="block w-full text-left px-4 py-3 text-lg text-loopifyDark hover:bg-loopifySoft hover:text-loopifyMain rounded-lg transition flex items-center justify-center"
                   >
                     {item.name}
                   </button>
@@ -164,7 +164,7 @@ const handleClick = (item) => {
                     key={index}
                     to={item.to}
                     onClick={() => handleClick(item)}
-                    className="block px-4 py-3 text-lg text-loopifyDark hover:bg-loopifySoft hover:text-loopifyMain rounded-lg transition"
+                    className="block px-4 py-3 text-lg text-loopifyDark hover:bg-loopifySoft hover:text-loopifyMain rounded-lg transition flex items-center justify-center"
                   >
                     {item.name}
                   </Link>
@@ -173,7 +173,7 @@ const handleClick = (item) => {
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition"
+                className="block w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition flex items-center justify-center"
               >
                 Login
               </Link>

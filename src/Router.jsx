@@ -1,20 +1,24 @@
 // src/Router.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import HomePage from "./App.jsx"; // ✅ your homepage
+import HomePage from "./App.jsx"; 
 import ReturnPage from "./pages/Returnpage.jsx";
-import Footer from "./components/Footer";
+import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
+import Profile from './components/Profile/Profile';
 
 export default function AppRouter() {
   return (
     <Router>
-      <Navbar />
+     
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/return" element={<ReturnPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
-      <Footer />
+    
     </Router>
   );
 }

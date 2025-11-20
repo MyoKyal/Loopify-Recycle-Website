@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
 const Icon = ({ path, className = "w-6 h-6" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
         {path.map((d, i) => <path key={i} d={d} />)}
@@ -598,6 +601,7 @@ const ReturnPage = () => {
     if (step === 4) {
         return (
             <div className="min-h-screen bg-loopifyLight text-loopifyDark font-body flex flex-col">
+                <Navbar />
                 <div className="container mx-auto px-6 py-24 max-w-3xl flex-grow flex items-center justify-center">
                     <div className="text-center p-12 bg-white rounded-3xl shadow-2xl border-t-8 border-loopifyMain animate-fade-in">
                         <CheckCircle className="w-20 h-20 text-loopifyMain mx-auto mb-8" />
@@ -622,6 +626,7 @@ const ReturnPage = () => {
                     </div>
                 </div>
                 <MessageBox message={message.text} type={message.type} onClose={() => setMessage({ text: null, type: null })} />
+                <Footer />
             </div>
         );
     }
@@ -629,6 +634,7 @@ const ReturnPage = () => {
     // --- Main Wizard Steps (1, 2, 3) ---
     return (
         <div className="min-h-screen bg-loopifyLight text-loopifyDark font-body flex flex-col pt-16 p-10">
+            <Navbar />
             <div className="container mx-auto px-4 sm:px-6 py-12 lg:py-16 max-w-5xl flex-grow">
                 <form onSubmit={step === 3 ? submitReturn : (e) => e.preventDefault()} className="space-y-16">
                     <div className="min-h-[500px]">
@@ -1072,6 +1078,7 @@ const ReturnPage = () => {
                 type={message.type}
                 onClose={() => setMessage({ text: null, type: null })}
             />
+            <Footer />
         </div>
     );
 };

@@ -1,7 +1,8 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 
 const slides = [
@@ -48,7 +49,7 @@ export default function App() {
 
   return (
     <>
-    
+      <Navbar />
       {/* HERO CAROUSEL */}
       <div className="relative h-screen overflow-hidden">
         {slides.map((slide, i) => (
@@ -179,7 +180,7 @@ export default function App() {
         </button>
       </section>
 
-     
+      <Footer />
     </>
   
   );

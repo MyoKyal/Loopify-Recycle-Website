@@ -1,12 +1,22 @@
 // src/components/Navbar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/Logo.jpg";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const location = useLocation();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return unsubscribe;
+  }, []);
 
   const navItems = [
     { name: "Home", to: "/" },
@@ -111,14 +121,24 @@ const handleClick = (item) => {
               )
             )}
 
-            {/* ─── Login Button ─── */}
-            <Link
-              to="/login"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="bg-loopifyAccent text-loopifyDark font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyHighlight hover:text-loopifyDark transition transform hover:scale-105 shadow-md font-body duration-300 flex items-center justify-center"
-            >
-              Login
-            </Link>
+            {/* ─── Login/Profile Button ─── */}
+            {user ? (
+              <Link
+                to="/profile"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="bg-loopifyAccent text-loopifyDark font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyHighlight hover:text-loopifyDark transition transform hover:scale-105 shadow-md font-body duration-300 flex items-center justify-center"
+              >
+                {user.email.split('@')[0]}
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="bg-loopifyAccent text-loopifyDark font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyHighlight hover:text-loopifyDark transition transform hover:scale-105 shadow-md font-body duration-300 flex items-center justify-center"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* ─── Mobile Menu Toggle ─── */}
@@ -170,13 +190,23 @@ const handleClick = (item) => {
                   </Link>
                 )
               )}
-              <Link
-                to="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition flex items-center justify-center"
-              >
-                Login
-              </Link>
+              {user ? (
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition flex items-center justify-center"
+                >
+                  {user.email.split('@')[0]}
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition flex items-center justify-center"
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         )}

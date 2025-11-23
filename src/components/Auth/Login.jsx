@@ -13,8 +13,11 @@ const Login = () => {
   const navigate = useNavigate();
 
   const checkAdmin = async (userEmail) => {
+    console.log("Checking admin for:", userEmail);
     const q = query(collection(db, 'admins'), where('email', '==', userEmail));
     const querySnapshot = await getDocs(q);
+
+    console.log("Admin found?", !querySnapshot.empty);
     return !querySnapshot.empty;
   };
 
@@ -24,7 +27,7 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const isAdmin = await checkAdmin(user.email);
-      navigate(isAdmin ? '/dashboard' : '/profile');
+      navigate(isAdmin ? '/dashboard' : '/');
     } catch (err) {
       setError(err.message);
     }
@@ -35,115 +38,87 @@ const Login = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       const isAdmin = await checkAdmin(user.email);
-      navigate(isAdmin ? '/dashboard' : '/profile');
+      navigate(isAdmin ? '/dashboard' : '/');
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-loopifyLight py-12 px-4 sm:px-6 lg:px-8 font-body">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-loopifyDark font-title">
-            Sign in to your account
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          <input type="hidden" name="remember" defaultValue="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-loopifyMuted placeholder-loopifyMuted text-loopifyDark rounded-t-md focus:outline-none focus:ring-loopifyMain focus:border-loopifyMain focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-loopifyMuted placeholder-loopifyMuted text-loopifyDark rounded-b-md focus:outline-none focus:ring-loopifyMain focus:border-loopifyMain focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-loopifyLight to-white px-4 font-body">
+      <div className="w-full max-w-md bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-8 space-y-6">
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-loopifyMain focus:ring-loopifyMain border-loopifyMuted rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-loopifyDark">
-                Remember me
-              </label>
-            </div>
+        <h2 className="text-center text-3xl font-bold text-loopifyDark font-title">
+          Welcome Back
+        </h2>
+        <p className="text-center text-loopifyMuted text-sm">
+          Sign in to continue
+        </p>
 
-            <div className="text-sm">
-              <a href="#" className="font-medium text-loopifyMain hover:text-loopifySecondary">
-                Forgot your password?
-              </a>
-            </div>
+        <form className="space-y-5" onSubmit={handleLogin}>
+          <div>
+            <input
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-lg border border-loopifyMuted focus:ring-2 focus:ring-loopifyMain outline-none"
+            />
           </div>
 
           <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-loopifyMain hover:bg-loopifySecondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-loopifyMain"
-            >
-              Sign in
-            </button>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-lg border border-loopifyMuted focus:ring-2 focus:ring-loopifyMain outline-none"
+            />
           </div>
 
-          <div className="text-center">
-            <p className="text-sm text-loopifyMuted">
-              Don't have an account?{' '}
-              <Link to="/signup" className="font-medium text-loopifyMain hover:text-loopifySecondary">
-                Sign up
-              </Link>
-            </p>
+          <div className="flex justify-between items-center text-sm">
+            <label className="flex items-center gap-2 text-loopifyDark">
+              <input type="checkbox" className="h-4 w-4" />
+              Remember me
+            </label>
+            <a className="text-loopifyMain hover:text-loopifySecondary cursor-pointer">
+              Forgot password?
+            </a>
           </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 text-white bg-loopifyMain rounded-lg hover:bg-loopifySecondary transition"
+          >
+            Sign In
+          </button>
+
+          <p className="text-center text-sm text-loopifyMuted">
+            Don’t have an account?{' '}
+            <Link className="text-loopifyMain hover:text-loopifySecondary" to="/signup">
+              Create one
+            </Link>
+          </p>
+
           {error && <p className="text-red-500 text-center">{error}</p>}
         </form>
 
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-loopifyMuted" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-loopifyLight text-loopifyMuted">Or</span>
-            </div>
-          </div>
-          <div className="mt-6">
-            <button
-              onClick={handleGoogleLogin}
-              className="group relative w-full flex justify-center py-2 px-4 border border-loopifyMuted text-sm font-medium rounded-md text-loopifyDark bg-white hover:bg-loopifySoft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-loopifyMain"
-            >
-              Sign in with Google
-            </button>
-          </div>
+        <div className="text-center relative">
+          <div className="border-t border-loopifyMuted"></div>
+          <span className="px-3 bg-white text-loopifyMuted absolute -top-3 left-1/2 -translate-x-1/2">
+            or
+          </span>
         </div>
+
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full py-3 border border-loopifyMuted rounded-lg hover:bg-loopifySoft transition"
+        >
+          Sign in with Google
+        </button>
+
       </div>
     </div>
   );

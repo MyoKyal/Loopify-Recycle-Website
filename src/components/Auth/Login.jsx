@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider, db } from '../../firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -33,16 +34,35 @@ const Login = () => {
     }
   };
 
+  
+
   const handleGoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      const isAdmin = await checkAdmin(user.email);
-      navigate(isAdmin ? '/dashboard' : '/');
-    } catch (err) {
-      setError(err.message);
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    // --- NEW PART — SAVE USER TO FIRESTORE IF NOT EXISTS ---
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      await setDoc(userRef, {
+        email: user.email,
+        username: user.displayName,   // <-- auto username
+        photoURL: user.photoURL,      // <-- google profile photo
+        createdAt: new Date(),
+      });
     }
-  };
+
+    // check admin
+    const isAdmin = await checkAdmin(user.email);
+    navigate(isAdmin ? "/dashboard" : "/");
+  } catch (err) {
+    setError(err.message);
+  }
+};
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-loopifyLight to-white px-4 font-body">

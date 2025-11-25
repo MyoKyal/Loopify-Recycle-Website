@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
+import defaultAvatar from "/src/assets/defaultAvatar2.png";
+
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -121,20 +123,36 @@ const handleClick = (item) => {
               )
             )}
 
-            {/* ─── Login/Profile Button ─── */}
+            {/* Show Profile Photo if logged in */}
             {user ? (
-              <Link
-                to="/profile"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="bg-loopifyAccent text-loopifyDark font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyHighlight hover:text-loopifyDark transition transform hover:scale-105 shadow-md font-body duration-300 flex items-center justify-center"
-              >
-                {user.email.split('@')[0]}
-              </Link>
+              <>
+                <Link to="/profile">
+                  <img
+                    src={defaultAvatar}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full border-2 border-white object-cover hover:scale-105 transition"
+                  />
+                </Link>
+                <button
+                  onClick={async () => {
+                    try {
+                      const { signOut } = await import("firebase/auth");
+                      await signOut(auth);
+                      navigate("/");
+                    } catch (error) {
+                      console.error("Logout failed:", error);
+                    }
+                  }}
+                  className="ml-2 px-3 py-1 bg-loopifySecondary text-white rounded-md hover:bg-loopifyDark transition"
+                  title="Logout"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <Link
                 to="/login"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="bg-loopifyAccent text-loopifyDark font-semibold py-2.5 px-6 rounded-full hover:bg-loopifyHighlight hover:text-loopifyDark transition transform hover:scale-105 shadow-md font-body duration-300 flex items-center justify-center"
+                className="px-4 py-2 bg-white text-loopifyMain rounded-md hover:bg-gray-200 transition"
               >
                 Login
               </Link>
@@ -191,13 +209,31 @@ const handleClick = (item) => {
                 )
               )}
               {user ? (
-                <Link
-                  to="/profile"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition flex items-center justify-center"
-                >
-                  {user.email.split('@')[0]}
-                </Link>
+                <>
+                  <Link
+                    to="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full bg-loopifyMain hover:bg-loopifySecondary text-white font-semibold py-3 rounded-full text-lg shadow-md transition flex items-center justify-center"
+                  >
+                    {user.email.split('@')[0]}
+                  </Link>
+                  <button
+                    onClick={async () => {
+                      setMobileMenuOpen(false);
+                      try {
+                        const { signOut } = await import("firebase/auth");
+                        await signOut(auth);
+                        navigate("/");
+                      } catch (error) {
+                        console.error("Logout failed:", error);
+                      }
+                    }}
+                    className="mt-2 w-full bg-loopifySecondary hover:bg-loopifyDark text-white font-semibold py-3 rounded-full text-lg shadow-md transition"
+                    title="Logout"
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <Link
                   to="/login"
